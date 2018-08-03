@@ -959,4 +959,71 @@ bool mEnableDumpResult;
 int freq_CLK;
 std::string DumpInterrupt;
 
+//===========================================================
+void Ccmt::tgt_acc(tlm::tlm_generic_payload &trans, sc_time &t)
+{
+    tlm::tlm_command command;
+    sc_dt::uint64 address = 0;
+    unsigned int data_length = 0;
+    unsigned char *data_ptr = NULL;
+    bool status = this->tgt_get_gp_attribute(command, address, data_ptr, data_length, trans, false);
+
+    sc_assert(data_ptr != NULL);
+    if (command == tlm::TLM_READ_COMMAND)
+	{
+        status = reg_rd((unsigned int)address, data_ptr, data_length);
+    } 
+	else if (command == tlm::TLM_WRITE_COMMAND)
+	{
+        status = reg_wr((unsigned int)address, data_ptr, data_length);
+    } 
+	else
+	{
+        // Be necessarily TLM_IGNORE_COMMAND
+        status = true;
+    }
+    if (status) 
+	{
+        trans.set_response_status(tlm::TLM_OK_RESPONSE);
+    } 
+	else 
+	{
+        trans.set_response_status(tlm::TLM_GENERIC_ERROR_RESPONSE);
+    }
+}
+
+unsigned int Ccmt::tgt_acc_dbg (tlm::tlm_generic_payload &trans)
+{
+    tlm::tlm_command command;
+    sc_dt::uint64 address = 0;
+    unsigned int data_length = 0;
+    unsigned char *data_ptr = NULL;
+    bool status = this->tgt_get_gp_attribute(command, address, data_ptr, data_length, trans, true);
+
+    sc_assert(data_ptr != NULL);
+    if (command == tlm::TLM_READ_COMMAND) 
+	{
+        status = reg_rd_dbg((unsigned int)address, data_ptr, data_length);
+    } 
+	else if (command == tlm::TLM_WRITE_COMMAND)
+	{
+        status = reg_wr_dbg((unsigned int)address, data_ptr, data_length);
+    } 
+	else 
+	{
+        status = true;
+    }
+	
+    if (status) 
+	{
+        trans.set_response_status(tlm::TLM_OK_RESPONSE);
+        return data_length;
+    } 
+	else 
+	{
+        trans.set_response_status(tlm::TLM_GENERIC_ERROR_RESPONSE);
+        return 0;
+    }
+}
+
 #endif//CMT_CMDIF_H
