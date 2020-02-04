@@ -7,3 +7,9 @@ he still think about his staff. As my feeling, his thinking come from the kindne
 what I said, but I can't express all of them and because every people has their own perspective. If you interest, you can read this book and 
 have your own feeling. One statement I like is "Thành công đến từ sự lợi dụng thời thế nhất thời mà không quan tấm đến lợi ích của mọi người 
 sẽ không kéo dài được lâu". Once again, wish you have a good new year. That's all for my afternoon speech, thank you for your attention.
+
+//****************************************//
+//************* DELETE MUTEX ************//
+//***************************************//
+https://www.justsoftwaresolutions.co.uk/threading/implementing-a-thread-safe-queue-using-condition-variables.html
+https://www.geeksforgeeks.org/sharing-queue-among-three-threads/
